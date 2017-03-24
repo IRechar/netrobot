@@ -22,17 +22,17 @@ const rotate = (element, degree, offset=90) => {
 
 let move = {
   startX: 250,
-  startY: 235,
+  startY: 219,
   x: 250,
-  y: 235,
+  y: 219,
   translate: function(element, x, y) {
     if(x) {
-      x = this.startX + Number(x) * 2.35;
+      x = this.startX + Number(x) * 2.2;
     } else {
       x = this.x;
     }
     if(y) {
-      y = this.startY + Number(y) * 2.20;
+      y = this.startY + Number(y) * 2;
     } else {
       y = this.y;
     }
