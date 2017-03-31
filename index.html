@@ -6,9 +6,49 @@
     <META http-equiv="Pragma" content="no-cache">
     <META HTTP-EQUIV="Expires" CONTENT="-1">
     <meta http-equiv="cache-control" content="no-cache" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <title>Arrowmap</title>
+    <style>
+      body {
+        overflow: hidden;
+      }
+      .headline {
+        text-align: center;
+        color: blue;
+        font-family: "Open Sans";
+      }
+      .stream {
+        display: inline-block;
+        background-color: black;
+        width: 720px;
+        height: 720px;
+        margin-right: 50px;
+      }
+      .main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .steering {
+        margin-bottom: 20px;
+      }
+      p {
+        font-family: "Open Sans";
+      }
+    </style>
   </head>
   <body>
-    <object id="arrow" data="resources/arrow.svg" type="image/svg+xml" height="400" width="400"></object>
+    <h1 class="headline">NetRobot</h1>
+    <div class="main">
+      <div class="stream"></div>
+      <div class="controller">
+        <object class="steering" id="arrow" data="resources/arrow.svg" type="image/svg+xml" height="400" width="400"></object>
+        <p>
+        Use the Arrow-Keys to control the NetRobot.<br>
+        The Y-axis determines your speed.<br>
+        The X-axis determines the strength of your turn.<br>
+        </p>
+      </div>
+    </div>
   </body>
 </html>

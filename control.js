@@ -44,7 +44,7 @@ let move = {
 }
 
 window.addEventListener('load', () => {
-  let arrow = document.getElementById('arrow')
+  let arrow = document.getElementById('arrow');
   let polygon = arrow.contentDocument.querySelector('polygon');
   let currentX = 0;
   let currentY = 0;
@@ -65,14 +65,14 @@ window.addEventListener('load', () => {
 
   function setX(val) {
     rotateMap(polygon);
-    move.translate(polygon, val)
-  };
+    move.translate(polygon, val);
+  }
   function setY(val) {
     rotateMap(polygon);
-    move.translate(polygon, 0, val)
+    move.translate(polygon, 0, val);
     polygon.setAttribute('points',
       joinPoints(interpolate(Math.abs(val) / 100.0, startPoints, endPoints)));
-  };
+  }
 
   let map = {};
   onkeydown = onkeyup = function(e){
