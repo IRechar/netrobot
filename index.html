@@ -7,7 +7,6 @@
     <meta http-equiv="cache-control" content="no-cache" />
     <link href="https://fonts.googleapis.com/css?family=Catamaran" rel="stylesheet">
     <title>NetRobot</title>
-    <script src="control.js" type="text/javascript"></script>
     <style>
       body {
         overflow: hidden;
@@ -17,7 +16,7 @@
         background-attachment: fixed;
       }
       .headline {
-        text-shadow: 0px 0px 80px rgba(255, 192, 92, 0.7);
+        text-shadow: 0px 0px 80px rgba(255, 192, 92, 0.9);
         text-align: center;
         color: white;
         font-family: "Catamaran";
@@ -84,6 +83,7 @@
       <iframe src="http://192.168.1.213:8081/" frameBorder="0" class="stream"></iframe>
       <div class="controller">
         <object class="steering" id="arrow" data="resources/arrow.svg" type="image/svg+xml" height="400" width="400"></object>
+        <script src="control.js" type="text/javascript"></script>
         <div class="description">
           <p>
         Use the <strong>Arrow Keys</strong> to control the Robot.<br>

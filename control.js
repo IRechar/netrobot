@@ -18,7 +18,7 @@ const joinPoints = (arr) => {
 const rotate = (element, degree, offset=90) => {
   let match = /(.*)rotate\(-?[\.\d]+(.*)\)(.*)/g.exec(element.getAttribute('transform') || '');
   element.setAttribute('transform', `${match[1]}rotate(${offset + degree}${match[2]})`);
-}
+};
 
 let move = {
   startX: 250,
@@ -27,7 +27,7 @@ let move = {
   y: 219,
   translate: function(element, x, y) {
     if(x) {
-      x = this.startX + Number(x) * 2.2;
+      x = this.startX + Number(x) * 2;
     } else {
       x = this.x;
     }
@@ -41,7 +41,7 @@ let move = {
     match = /(.*)translate\(-?[\.\d]+\s+-?[\.\d]+(.*)\)(.*)/g.exec(element.getAttribute('transform') || '');
     element.setAttribute('transform', `${match[1]}translate(${x} ${y}${match[2]})`);
   },
-}
+};
 
 window.addEventListener('load', () => {
   let arrow = document.getElementById('arrow');
@@ -56,7 +56,7 @@ window.addEventListener('load', () => {
     offset = (yVal < 0) * 180;
     degree = -Math.abs(xVal / 100) * (xVal - Math.abs(yVal / 2) * normalizedX) * 0.9;
     rotate(polygon, offset + (offset ? -1 : 1) * degree);
-  }
+  };
 
   let startPoints = polygon.getAttribute('points').split(' ').map(
     (point) => point.split(',').map(Number));
@@ -75,23 +75,23 @@ window.addEventListener('load', () => {
   }
 
   let map = {};
-  onkeydown = onkeyup = function(e){
+  onkeydown = onkeyup = function(e) {
       map[e.key] = e.type == 'keydown';
-  }
+  };
   setInterval(function moveArrow() {
     if(map[' ']) {
       currentY = currentX = 0;
     }
-    if(map['ArrowUp']) {
+    if(map.ArrowUp) {
       currentY -= 3;
     }
-    if(map['ArrowDown']) {
+    if(map.ArrowDown) {
       currentY += 3;
-    }1
-    if(map['ArrowRight']) {
+    }
+    if(map.ArrowRight) {
       currentX += 3;
     }
-    if(map['ArrowLeft']) {
+    if(map.ArrowLeft) {
       currentX -= 3;
     }
     currentX = Math.min(Math.max(currentX, -100), 100);
