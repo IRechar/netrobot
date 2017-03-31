@@ -79,6 +79,9 @@ window.addEventListener('load', () => {
       map[e.key] = e.type == 'keydown';
   }
   setInterval(function moveArrow() {
+    if(map[' ']) {
+      currentY = currentX = 0;
+    }
     if(map['ArrowUp']) {
       currentY -= 3;
     }
