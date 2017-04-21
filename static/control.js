@@ -44,6 +44,9 @@ let move = {
 };
 
 window.addEventListener('load', () => {
+  iframe = document.querySelector('iframe');
+  iframe.setAttribute('src', iframe.dataset.src);
+  
   let arrow = document.getElementById('arrow');
   let polygon = arrow.contentDocument.querySelector('polygon');
   let currentX = 0;
@@ -78,25 +81,38 @@ window.addEventListener('load', () => {
   onkeydown = onkeyup = function(e) {
       map[e.key] = e.type == 'keydown';
   };
+  
+  let counter = 0;
   setInterval(function moveArrow() {
     if(map[' ']) {
       currentY = currentX = 0;
     }
     if(map.ArrowUp) {
-      currentY -= 3;
+      currentY -= 5;
     }
     if(map.ArrowDown) {
-      currentY += 3;
+      currentY += 5;
     }
     if(map.ArrowRight) {
-      currentX += 3;
+      currentX += 5;
     }
     if(map.ArrowLeft) {
-      currentX -= 3;
+      currentX -= 5;
     }
     currentX = Math.min(Math.max(currentX, -100), 100);
     currentY = Math.min(Math.max(currentY, -100), 100);
-    setX(Math.abs(currentX) > 5 ? currentX : 0.1);
-    setY(Math.abs(currentY) > 5 ? currentY : 0.1);
-  }, 20);
+    usedX = Math.abs(currentX) > 5 ? currentX : 0.1;
+    usedY = Math.abs(currentY) > 5 ? currentY : 0.1
+    setX(usedX);
+    setY(usedY);
+  
+    counter++;
+    if(counter >= 30) {
+      var xmlHttp = new XMLHttpRequest();
+      console.log(`sending ${usedY} and ${usedX}`)
+      xmlHttp.open('GET', window.location.href + `/move?speed=${usedY}&rotation=${usedX}`,true);
+      xmlHttp.send(null);
+      counter = 0;
+    }
+  }, 100 / 3.0);
 });
