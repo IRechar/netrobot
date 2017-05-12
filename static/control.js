@@ -83,21 +83,23 @@ window.addEventListener('load', () => {
   };
   
   let counter = 0;
+  let prevX = 0;
+  let prevY = 0;
   setInterval(function moveArrow() {
     if(map[' ']) {
-      currentY = currentX = 0;
+      currentY = 0;
     }
     if(map.ArrowUp) {
-      currentY -= 5;
+      currentY -= 2.5;
     }
     if(map.ArrowDown) {
-      currentY += 5;
+      currentY += 2.5;
     }
     if(map.ArrowRight) {
-      currentX += 5;
+      currentX += 2.5;
     }
     if(map.ArrowLeft) {
-      currentX -= 5;
+      currentX -= 2.5;
     }
     currentX = Math.min(Math.max(currentX, -100), 100);
     currentY = Math.min(Math.max(currentY, -100), 100);
@@ -107,12 +109,15 @@ window.addEventListener('load', () => {
     setY(usedY);
   
     counter++;
-    if(counter >= 30) {
+    if(counter >= 3 && (prevX != currentX || prevY != currentY)) {
       var xmlHttp = new XMLHttpRequest();
       console.log(`sending ${usedY} and ${usedX}`)
-      xmlHttp.open('GET', window.location.href + `/move?speed=${usedY}&rotation=${usedX}`,true);
+      console.log(window.location.href + 'move?speed=0&rotation=0')
+      xmlHttp.open('GET', window.location.href + `move?speed=${usedY}&rotation=${usedX}`,true);
       xmlHttp.send(null);
       counter = 0;
     }
-  }, 100 / 3.0);
+    prevX = currentX;
+    prevY = currentY;
+  }, 10);
 });

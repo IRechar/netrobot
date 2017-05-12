@@ -1,21 +1,11 @@
 from flask import Flask, current_app, request, render_template, Response
-import RPi.GPIO as GPIO
-import subprocess
 import time
 import json
-
-GPIO.setmode(GPIO.BCM)
+import subprocess
+import os
 
 enable_port = 4
-GPIO.setup(enable_port, GPIO.OUT)
-GPIO.output(enable_port, GPIO.HIGH)
-
 motors_left = [17, 18]
-for i in range(len(motors_left)):
-    GPIO.setup(motors_left[i], GPIO.OUT)
-    motors_left[i] = GPIO.PWM(motors_left[i], 50)
-    motors_left[i].start(0)
-
 
 app = Flask(__name__)
 subprocess.call(['sudo', 'bash', './stream.sh'])
@@ -31,7 +21,7 @@ def move():
 	speed = request.args.get('speed')
 	rotation = request.args.get('rotation')
 
-	speed = float(speed)
+	speed = float(speed) / 100
 	rotation = float(rotation)
 
 	if(rotation > 0):
@@ -41,12 +31,22 @@ def move():
 	  speed_b = speed;
 	  speed_a = speed * ((100 - abs(rotation)) / 100)
 
-    motors_left[0].ChangeDutyCycle(50)
-    return Response(json.dumps((speed_a, speed_b)), status=200, mimetype="application/json")
-# #
-# @app.route('/stop')
-# def stop():
-# 	GPIO.output(18, GPIO.LOW)
+	on_pin = (18, 23) if speed > 0 else (17, 22)
+	off_pin = (17, 22) if on_pin[0] == 18 else (18, 23)
+	
+	print((on_pin, off_pin))
+	os.system('echo "4=1" > /dev/pi-blaster')
+	os.system(f'echo "{on_pin[0]}={abs(speed_a)}" > /dev/pi-blaster')
+	os.system(f'echo "{off_pin[0]}=0" > /dev/pi-blaster')
+	
+	os.system(f'echo "{on_pin[1]}={abs(speed_b)}" > /dev/pi-blaster')
+	os.system(f'echo "{off_pin[1]}=0" > /dev/pi-blaster')
+
+	return Response(json.dumps((speed_a, speed_b)), status=200, mimetype="application/json")
+
+@app.route('/stop')
+def stop():
+	GPIO.output(18, GPIO.LOW)
 
 if(__name__ == '__main__'):
 	app.run(debug=True, host='0.0.0.0')
