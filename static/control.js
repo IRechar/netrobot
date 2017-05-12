@@ -46,7 +46,7 @@ let move = {
 window.addEventListener('load', () => {
   iframe = document.querySelector('iframe');
   iframe.setAttribute('src', iframe.dataset.src);
-  
+
   let arrow = document.getElementById('arrow');
   let polygon = arrow.contentDocument.querySelector('polygon');
   let currentX = 0;
@@ -55,10 +55,10 @@ window.addEventListener('load', () => {
   const rotateMap = (polygon) => {
     xVal = currentX;
     yVal = currentY;
-    normalizedX = xVal > 0 ? 1 : -1;
+
     offset = (yVal < 0) * 180;
-    degree = -Math.abs(xVal / 100) * (xVal - Math.abs(yVal / 2) * normalizedX) * 0.9;
-    rotate(polygon, offset + (offset ? -1 : 1) * degree);
+    degree = xVal * 0.9 * (100 - Math.abs(yVal) / 2) / 100;
+    rotate(polygon, offset + (offset ? 1 : -1) * degree);
   };
 
   let startPoints = polygon.getAttribute('points').split(' ').map(
@@ -81,7 +81,7 @@ window.addEventListener('load', () => {
   onkeydown = onkeyup = function(e) {
       map[e.key] = e.type == 'keydown';
   };
-  
+
   let counter = 0;
   let prevX = 0;
   let prevY = 0;
@@ -107,12 +107,10 @@ window.addEventListener('load', () => {
     usedY = Math.abs(currentY) > 5 ? currentY : 0.1
     setX(usedX);
     setY(usedY);
-  
+
     counter++;
     if(counter >= 3 && (prevX != currentX || prevY != currentY)) {
       var xmlHttp = new XMLHttpRequest();
-      console.log(`sending ${usedY} and ${usedX}`)
-      console.log(window.location.href + 'move?speed=0&rotation=0')
       xmlHttp.open('GET', window.location.href + `move?speed=${usedY}&rotation=${usedX}`,true);
       xmlHttp.send(null);
       counter = 0;
