@@ -1,6 +1,6 @@
 // a straight line 35.7,0 0,0 0,150 0,306 35.7,306 35.7,153
 const endPoints = [[35.7, 0], [0, 0], [0, 150], [0, 306], [35.7, 306], [35.7, 153]];
-
+let gamepad;
 // assumes 2d array
 const interpolate = (n, end, start) => {
   return start.map((point, i) => {
@@ -42,6 +42,11 @@ let move = {
     element.setAttribute('transform', `${match[1]}translate(${x} ${y}${match[2]})`);
   },
 };
+
+window.addEventListener("gamepadconnected", function(e) {
+  console.log('gamepad connected');
+  gamepad = navigator.getGamepads()[0]
+});
 
 window.addEventListener('load', () => {
   iframe = document.querySelector('iframe');
@@ -86,6 +91,12 @@ window.addEventListener('load', () => {
   let prevX = 0;
   let prevY = 0;
   setInterval(function moveArrow() {
+    gamepad = navigator.getGamepads()[0];
+    isKeyPressed = Object.keys(map).reduce((a, b) => a + !!map[b], 0);
+    if(gamepad && !isKeyPressed) {
+      currentX = gamepad.axes[0] * 100;
+      currentY = gamepad.axes[1] * 100;
+    }
     if(map[' ']) {
       currentY = 0;
     }
@@ -101,10 +112,11 @@ window.addEventListener('load', () => {
     if(map.ArrowLeft) {
       currentX -= 2.5;
     }
+
     currentX = Math.min(Math.max(currentX, -100), 100);
     currentY = Math.min(Math.max(currentY, -100), 100);
-    usedX = Math.abs(currentX) > 5 ? currentX : 0.1;
-    usedY = Math.abs(currentY) > 5 ? currentY : 0.1
+    usedX = Math.abs(currentX) > 15 ? currentX : 0.1;
+    usedY = Math.abs(currentY) > 15 ? currentY : 0.1
     setX(usedX);
     setY(usedY);
 
