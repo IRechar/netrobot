@@ -23,10 +23,10 @@ def move():
 
 	if(rotation > 0):
 	  speed_a = speed;
-	  speed_b = speed * ((100 - abs(rotation)) / 100)
+	  speed_b = -speed * ((100 - abs(rotation)) / 100)
 	else:
 	  speed_b = speed;
-	  speed_a = speed * ((100 - abs(rotation)) / 100)
+	  speed_a = -speed * ((100 - abs(rotation)) / 100)
 
 	on_pin = (18, 23) if speed > 0 else (17, 22)
 	off_pin = (17, 22) if on_pin[0] == 18 else (18, 23)
